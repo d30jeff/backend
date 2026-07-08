@@ -1,0 +1,15 @@
+model Currency {
+  ID        String    @id
+  code      String    @unique
+  name      String
+  countryID String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isActive  Boolean   @default(true)
+
+  Country  Country   @relation(fields: [countryID], references: [ID], onDelete: Cascade)
+  Accounts Account[]
+
+  @@index([ID, code, countryID, isActive, deletedAt])
+}

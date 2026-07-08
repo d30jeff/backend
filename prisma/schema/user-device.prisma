@@ -1,0 +1,11 @@
+model UserDevice {
+  ID        String   @id
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userID    String
+
+  User User @relation(fields: [userID], references: [ID], onDelete: Cascade)
+
+  @@index([ID, token, userID, createdAt, updatedAt])
+}

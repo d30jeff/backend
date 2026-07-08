@@ -1,0 +1,14 @@
+model UserPreference {
+  ID         String    @id
+  appearance String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  setAt      DateTime?
+  userID     String    @unique
+  localeID   String
+
+  User   User   @relation(fields: [userID], references: [ID], onDelete: Cascade)
+  Locale Locale @relation(fields: [localeID], references: [ID], onDelete: Cascade)
+
+  @@index([userID, localeID, createdAt, updatedAt])
+}

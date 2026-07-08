@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "lib": [
+      "ESNext"
+    ],
+    "declaration": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "useDefineForClassFields": false,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "outDir": "./types-dist",
+    "sourceMap": false,
+    "declarationMap": false,
+    "baseUrl": ".",
+    "types": ["node"],
+    "typeRoots": [
+      "./src/types",
+      "node_modules/@types"
+    ],
+    "incremental": false,
+    "paths": {
+      "@apps/*": [
+        "apps/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
+    }
+  },
+  "include": [
+    "index.ts",
+    "apps/admin/src/admin.ts",
+    "apps/business/src/business.ts",
+    "apps/consumer/src/consumer.ts",
+    "libs/common/src/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "type-dist",
+    "types-dist",
+    "libs/prisma",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
+}

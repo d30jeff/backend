@@ -1,0 +1,12 @@
+model PlanFeature {
+  ID        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  limit     Int
+  planID    String
+  Plan      Plan     @relation(fields: [planID], references: [ID])
+  featureID String
+  Feature   Feature  @relation(fields: [featureID], references: [ID])
+
+  @@index([ID, planID, featureID])
+}

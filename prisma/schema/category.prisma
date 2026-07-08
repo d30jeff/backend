@@ -1,0 +1,12 @@
+model Category {
+  ID             String    @id
+  categoryTypeID String
+  name           String
+  code           String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime?
+
+  CategoryType CategoryType @relation(fields: [categoryTypeID], references: [ID])
+
+  @@index([code])
+}

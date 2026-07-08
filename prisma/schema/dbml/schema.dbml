@@ -1,0 +1,585 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Transaction {
+  ID String [pk]
+  amount Decimal [not null, default: 0]
+  description String
+  date DateTime [default: `now()`, not null]
+  accountID String [not null]
+  Account Account [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  transactionCategoryID String
+  Category TransactionCategory
+  Attachments TransactionAttachment [not null]
+}
+
+Table TransactionCategory {
+  ID String [pk]
+  name String [not null]
+  description String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Transactions Transaction [not null]
+}
+
+Table TransactionAttachment {
+  ID String [pk]
+  transactionID String [not null]
+  Transaction Transaction [not null]
+  uploadID String [not null]
+  Upload Upload [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table Account {
+  ID String [pk]
+  name String [not null]
+  description String
+  balance Decimal [not null, default: 0]
+  excludeFromOverview Boolean [default: false]
+  currencyID String [not null]
+  workspaceID String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+  createdByUserID String [not null]
+  updatedByUserID String
+  archivedAt DateTime
+  CreatedBy User [not null]
+  UpdatedBy User
+  Currency Currency [not null]
+  Transactions Transaction [not null]
+  Workspace Workspace [not null]
+}
+
+Table Action {
+  ID String [pk]
+  name String [not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Permissions Permission [not null]
+}
+
+Table Address {
+  ID String [pk]
+  lineAddressOne String [not null]
+  lineAddressTwo String
+  postcode String [not null]
+  countryID String
+  stateID String
+  cityID String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Budget {
+  ID String [pk]
+  name String [not null]
+  amount Decimal [not null, default: 0]
+  startsAt DateTime [not null]
+  endsAt DateTime [not null]
+  workspaceID String [not null]
+  Workspace Workspace [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+  createdByUserID String [not null]
+  CreatedBy User [not null]
+}
+
+Table CategoryType {
+  ID String [pk]
+  name String [not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  Categories Category [not null]
+}
+
+Table Category {
+  ID String [pk]
+  categoryTypeID String [not null]
+  name String [not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  CategoryType CategoryType [not null]
+}
+
+Table City {
+  ID String [pk]
+  name String [unique, not null]
+  code String [unique, not null]
+  countryID String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isActive Boolean [default: false]
+  stateID String [not null]
+  Country Country [not null]
+  State State [not null]
+}
+
+Table Country {
+  ID String [pk]
+  name String [not null]
+  code String [unique, not null]
+  isActive Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+  States State [not null]
+  Cities City [not null]
+  Currencies Currency [not null]
+}
+
+Table Currency {
+  ID String [pk]
+  code String [unique, not null]
+  name String [not null]
+  countryID String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+  isActive Boolean [not null, default: true]
+  Country Country [not null]
+  Accounts Account [not null]
+}
+
+Table Feature {
+  ID String [pk]
+  name String [not null]
+  code String [not null]
+  description String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  moduleID String [not null]
+  Module Module [not null]
+  Plans PlanFeature [not null]
+  Permissions Permission [not null]
+
+  indexes {
+    (code, moduleID) [unique]
+  }
+}
+
+Table FeatureActionPlanLimit {
+  ID String [pk]
+  featureActionID String [not null]
+  planID String [not null]
+  unit String [not null, default: 'RECORDS']
+  limit Int [default: 1]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Plan Plan [not null]
+
+  indexes {
+    (featureActionID, planID) [unique]
+  }
+}
+
+Table IndustryRole {
+  ID String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  industryID String [not null]
+  Industry Industry [not null]
+  roleID String [not null]
+  Role Role [not null]
+
+  indexes {
+    (roleID, industryID) [unique]
+  }
+}
+
+Table Industry {
+  ID String [pk]
+  name String [unique, not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Roles IndustryRole [not null]
+}
+
+Table Locale {
+  ID String [pk]
+  name String [unique, not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isActive Boolean [not null, default: false]
+  UserPreferences UserPreference [not null]
+}
+
+Table Module {
+  ID String [pk]
+  name String [not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Roles Role [not null]
+  Features Feature [not null]
+  Permissions Permission [not null]
+  Users User [not null]
+  Plans Plan [not null]
+  Workspaces Workspace [not null]
+  UserRoles UserRole [not null]
+}
+
+Table Permission {
+  ID String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  moduleID String [not null]
+  featureID String [not null]
+  actionID String [not null]
+  roleID String [not null]
+  scope Scope [not null]
+  Module Module [not null]
+  Feature Feature [not null]
+  Action Action [not null]
+  Role Role [not null]
+
+  indexes {
+    (moduleID, featureID, actionID, roleID, scope) [unique]
+  }
+}
+
+Table PlanFeature {
+  ID String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  limit Int [not null]
+  planID String [not null]
+  Plan Plan [not null]
+  featureID String [not null]
+  Feature Feature [not null]
+}
+
+Table Plan {
+  ID String [pk]
+  name String [unique, not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  moduleID String [not null]
+  Module Module [not null]
+  Prices PlanPrice [not null]
+  Subscribers UserSubscription [not null]
+  Features PlanFeature [not null]
+  User UserPlan [not null]
+  FeatureActionLimits FeatureActionPlanLimit [not null]
+}
+
+Table PlanPrice {
+  ID String [pk]
+  stripeID String [unique, not null]
+  amountInCents Int [not null]
+  currency String [not null]
+  interval String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  planID String [not null]
+  Plan Plan [not null]
+}
+
+Table Role {
+  ID String [pk]
+  name String [not null]
+  code String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  moduleID String [not null]
+  Module Module [not null]
+  Industries IndustryRole [not null]
+  Permissions Permission [not null]
+  WorkspaceMembers WorkspaceMember [not null]
+  Users UserRole [not null]
+
+  indexes {
+    (code, moduleID) [unique]
+  }
+}
+
+Table State {
+  ID String [pk]
+  name String [unique, not null]
+  code String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  countryID String [not null]
+  isActive Boolean [default: false]
+  Country Country [not null]
+  Cities City [not null]
+}
+
+Table StripeConfiguration {
+  ID String [pk]
+  secretKey String [unique, not null]
+  webhookSecret String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Upload {
+  ID String [pk]
+  originalFileName String
+  fileSizeInBytes Int [not null]
+  mimetype String [not null]
+  key String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  consumedAt DateTime
+  compressedAt DateTime
+  createdByUserID String [not null]
+  CreatedBy User [not null]
+  Transactions TransactionAttachment [not null]
+  UserProfiles UserProfile [not null]
+}
+
+Table UserDevice {
+  ID String [pk]
+  token String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  userID String [not null]
+  User User [not null]
+}
+
+Table UserPlan {
+  ID String [pk]
+  userID String [unique, not null]
+  User User [not null]
+  planID String [not null]
+  Plan Plan [not null]
+  expiresAt DateTime
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table UserPreference {
+  ID String [pk]
+  appearance String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  setAt DateTime
+  userID String [unique, not null]
+  localeID String [not null]
+  User User [not null]
+  Locale Locale [not null]
+}
+
+Table UserProfile {
+  ID String [pk]
+  firstName String [not null]
+  lastName String
+  gender String
+  uploadID String
+  dateOfBirth DateTime
+  profileCompletedAt DateTime
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  userID String [unique, not null]
+  User User [not null]
+  Upload Upload
+}
+
+Table UserRole {
+  ID String [pk]
+  userID String [not null]
+  roleID String [not null]
+  moduleID String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Module Module [not null]
+  User User [not null]
+  Role Role [not null]
+
+  indexes {
+    (moduleID, userID, roleID) [unique]
+  }
+}
+
+Table UserSubscription {
+  ID String [pk]
+  expiresAt DateTime
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  userID String [not null]
+  planID String [not null]
+  User User [not null]
+  Plan Plan [not null]
+}
+
+Table User {
+  ID String [pk]
+  externalID String
+  provider String
+  email String [not null]
+  passwordHash String
+  phone String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  claimedAt DateTime
+  verifiedAt DateTime
+  stripeCustomerID String [unique]
+  moduleID String [not null]
+  isActive Boolean [not null, default: false]
+  Module Module [not null]
+  Profile UserProfile
+  Preference UserPreference
+  UserSubscriptions UserSubscription [not null]
+  Plan UserPlan
+  UserDevices UserDevice [not null]
+  Uploads Upload [not null]
+  WorkspacesCreated Workspace [not null]
+  WorkspacesUpdated Workspace [not null]
+  Workspaces WorkspaceMember [not null]
+  UserRoles UserRole [not null]
+  AccountsCreated Account [not null]
+  AccountsUpdated Account [not null]
+  Budget Budget [not null]
+
+  indexes {
+    (moduleID, email) [unique]
+  }
+}
+
+Table WorkspaceMember {
+  ID String [pk]
+  workspaceID String [not null]
+  userID String [not null]
+  roleID String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  Role Role [not null]
+  User User [not null]
+  Workspace Workspace [not null]
+
+  indexes {
+    (workspaceID, userID, roleID) [unique]
+  }
+}
+
+Table Workspace {
+  ID String [pk]
+  name String [not null]
+  moduleID String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isActive Boolean [not null, default: false]
+  createdByUserID String
+  updatedByUserID String
+  parentID String
+  Module Module [not null]
+  Parent Workspace
+  Children Workspace [not null]
+  CreatedBy User
+  UpdatedBy User
+  Members WorkspaceMember [not null]
+  Accounts Account [not null]
+  Budgets Budget [not null]
+}
+
+Enum Scope {
+  All
+  Own
+}
+
+Ref: Transaction.accountID > Account.ID [delete: Cascade]
+
+Ref: Transaction.transactionCategoryID > TransactionCategory.ID [delete: Set Null]
+
+Ref: TransactionAttachment.transactionID > Transaction.ID
+
+Ref: TransactionAttachment.uploadID > Upload.ID
+
+Ref: Account.createdByUserID > User.ID [delete: Cascade]
+
+Ref: Account.updatedByUserID > User.ID [delete: Cascade]
+
+Ref: Account.currencyID > Currency.ID
+
+Ref: Account.workspaceID > Workspace.ID [delete: Cascade]
+
+Ref: Budget.workspaceID > Workspace.ID
+
+Ref: Budget.createdByUserID > User.ID [delete: Cascade]
+
+Ref: Category.categoryTypeID > CategoryType.ID
+
+Ref: City.countryID > Country.ID
+
+Ref: City.stateID > State.ID
+
+Ref: Currency.countryID > Country.ID [delete: Cascade]
+
+Ref: Feature.moduleID > Module.ID [delete: Cascade]
+
+Ref: FeatureActionPlanLimit.planID > Plan.ID [delete: Cascade]
+
+Ref: IndustryRole.industryID > Industry.ID
+
+Ref: IndustryRole.roleID > Role.ID
+
+Ref: Permission.moduleID > Module.ID [delete: Cascade]
+
+Ref: Permission.featureID > Feature.ID [delete: Cascade]
+
+Ref: Permission.actionID > Action.ID [delete: Cascade]
+
+Ref: Permission.roleID > Role.ID [delete: Cascade]
+
+Ref: PlanFeature.planID > Plan.ID
+
+Ref: PlanFeature.featureID > Feature.ID
+
+Ref: Plan.moduleID > Module.ID [delete: Cascade]
+
+Ref: PlanPrice.planID > Plan.ID
+
+Ref: Role.moduleID > Module.ID [delete: Cascade]
+
+Ref: State.countryID > Country.ID
+
+Ref: Upload.createdByUserID > User.ID [delete: Cascade]
+
+Ref: UserDevice.userID > User.ID [delete: Cascade]
+
+Ref: UserPlan.userID - User.ID [delete: Cascade]
+
+Ref: UserPlan.planID > Plan.ID
+
+Ref: UserPreference.userID - User.ID [delete: Cascade]
+
+Ref: UserPreference.localeID > Locale.ID [delete: Cascade]
+
+Ref: UserProfile.userID - User.ID [delete: Cascade]
+
+Ref: UserProfile.uploadID > Upload.ID
+
+Ref: UserRole.moduleID > Module.ID [delete: Cascade]
+
+Ref: UserRole.userID > User.ID [delete: Cascade]
+
+Ref: UserRole.roleID > Role.ID [delete: Cascade]
+
+Ref: UserSubscription.userID > User.ID [delete: Cascade]
+
+Ref: UserSubscription.planID > Plan.ID
+
+Ref: User.moduleID > Module.ID [delete: Cascade]
+
+Ref: WorkspaceMember.roleID > Role.ID [delete: Cascade]
+
+Ref: WorkspaceMember.userID > User.ID [delete: Cascade]
+
+Ref: WorkspaceMember.workspaceID > Workspace.ID [delete: Cascade]
+
+Ref: Workspace.moduleID > Module.ID [delete: Cascade]
+
+Ref: Workspace.parentID - Workspace.ID [delete: Set Null]
+
+Ref: Workspace.createdByUserID > User.ID [delete: Set Null]
+
+Ref: Workspace.updatedByUserID > User.ID [delete: Set Null]

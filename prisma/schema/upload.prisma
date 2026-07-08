@@ -1,0 +1,17 @@
+model Upload {
+  ID               String    @id
+  originalFileName String?
+  fileSizeInBytes  Int
+  mimetype         String
+  key              String    @unique
+  createdAt        DateTime  @default(now())
+  consumedAt       DateTime?
+  compressedAt     DateTime?
+  createdByUserID  String
+
+  CreatedBy    User                    @relation(fields: [createdByUserID], references: [ID], onDelete: Cascade)
+  Transactions TransactionAttachment[]
+  UserProfiles UserProfile[]
+
+  @@index([ID, mimetype, key, consumedAt, createdByUserID])
+}

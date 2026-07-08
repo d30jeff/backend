@@ -1,0 +1,12 @@
+model Locale {
+  ID        String   @id
+  name      String   @unique
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(false)
+
+  UserPreferences UserPreference[]
+
+  @@index([ID, name, code, createdAt, updatedAt, isActive])
+}

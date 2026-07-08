@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.types.json",
+  "compilerOptions": {
+    "outDir": "types-dist"
+  },
+  "include": [
+    "./apps/admin/src/admin.ts",
+    "./apps/business/src/business.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,33 @@
+model User {
+  ID               String    @id
+  externalID       String?
+  provider         String?
+  email            String
+  passwordHash     String?
+  phone            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  claimedAt        DateTime?
+  verifiedAt       DateTime?
+  stripeCustomerID String?   @unique
+  moduleID         String
+  isActive         Boolean   @default(false)
+
+  Module            Module             @relation(fields: [moduleID], references: [ID], onDelete: Cascade)
+  Profile           UserProfile?
+  Preference        UserPreference?
+  UserSubscriptions UserSubscription[]
+  Plan              UserPlan?
+  UserDevices       UserDevice[]
+  Uploads           Upload[]
+  WorkspacesCreated Workspace[]        @relation("WorkspacesCreated")
+  WorkspacesUpdated Workspace[]        @relation("WorkspacesUpdated")
+  Workspaces        WorkspaceMember[]
+  UserRoles         UserRole[]
+  AccountsCreated   Account[]          @relation("AccountsCreated")
+  AccountsUpdated   Account[]          @relation("AccountsUpdated")
+  Budget            Budget[]           @relation("BudgetsCreated")
+
+  @@unique([moduleID, email])
+  @@index([ID, externalID, provider, moduleID, email, isActive])
+}

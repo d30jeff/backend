@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.types.json",
+  "include": [
+    "./libs/common/src/index.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

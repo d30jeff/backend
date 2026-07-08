@@ -1,0 +1,17 @@
+model UserProfile {
+  ID                 String    @id
+  firstName          String
+  lastName           String?
+  gender             String?
+  uploadID           String?
+  dateOfBirth        DateTime?
+  profileCompletedAt DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  userID             String    @unique
+
+  User   User    @relation(fields: [userID], references: [ID], onDelete: Cascade)
+  Upload Upload? @relation(fields: [uploadID], references: [ID])
+
+  @@index([ID, gender, dateOfBirth, userID])
+}

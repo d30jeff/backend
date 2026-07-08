@@ -1,0 +1,11 @@
+model Industry {
+  ID        String   @id
+  name      String   @unique
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Roles IndustryRole[]
+
+  @@index([ID, name, code, createdAt, updatedAt])
+}

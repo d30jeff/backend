@@ -1,0 +1,32 @@
+model Plan {
+  ID        String   @id
+  name      String   @unique
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  moduleID  String
+
+  Module              Module                   @relation(fields: [moduleID], references: [ID], onDelete: Cascade)
+  Prices              PlanPrice[]
+  Subscribers         UserSubscription[]
+  Features            PlanFeature[]
+  User                UserPlan[]
+  FeatureActionLimits FeatureActionPlanLimit[]
+
+  @@index([ID, code, createdAt, updatedAt])
+}
+
+model PlanPrice {
+  ID            String   @id
+  stripeID      String   @unique
+  amountInCents Int
+  currency      String
+  interval      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  planID String
+  Plan   Plan   @relation(fields: [planID], references: [ID])
+
+  @@index([ID, stripeID, planID, currency, interval, createdAt, updatedAt])
+}

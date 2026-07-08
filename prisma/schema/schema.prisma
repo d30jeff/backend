@@ -1,0 +1,12 @@
+generator client {
+  provider               = "prisma-client"
+  previewFeatures        = ["strictUndefinedChecks", "postgresqlExtensions", "relationJoins"]
+  output                 = "../../libs/prisma"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+}
+
+datasource db {
+  provider   = "postgres"
+  extensions = [pg_trgm]
+}

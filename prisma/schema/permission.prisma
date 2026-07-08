@@ -1,0 +1,23 @@
+enum Scope {
+  All
+  Own
+}
+
+model Permission {
+  ID        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  moduleID  String
+  featureID String
+  actionID  String
+  roleID    String
+  scope     Scope
+
+  Module  Module  @relation(fields: [moduleID], references: [ID], onDelete: Cascade)
+  Feature Feature @relation(fields: [featureID], references: [ID], onDelete: Cascade)
+  Action  Action  @relation(fields: [actionID], references: [ID], onDelete: Cascade)
+  Role    Role    @relation(fields: [roleID], references: [ID], onDelete: Cascade)
+
+  @@unique([moduleID, featureID, actionID, roleID, scope])
+  @@index([ID, moduleID, featureID, actionID, roleID, scope, createdAt, updatedAt])
+}

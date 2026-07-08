@@ -1,0 +1,17 @@
+model Role {
+  ID        String   @id
+  name      String
+  code      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  moduleID  String
+
+  Module           Module            @relation(fields: [moduleID], references: [ID], onDelete: Cascade)
+  Industries       IndustryRole[]
+  Permissions      Permission[]
+  WorkspaceMembers WorkspaceMember[]
+  Users            UserRole[]
+
+  @@unique([code, moduleID])
+  @@index([ID, code, moduleID, createdAt, updatedAt])
+}

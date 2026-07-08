@@ -1,0 +1,9 @@
+model StripeConfiguration {
+  ID            String   @id
+  secretKey     String
+  webhookSecret String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([secretKey])
+}

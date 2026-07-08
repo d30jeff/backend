@@ -1,0 +1,15 @@
+model City {
+  ID        String   @id
+  name      String   @unique
+  code      String   @unique
+  countryID String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean? @default(false)
+  stateID   String
+
+  Country Country @relation(fields: [countryID], references: [ID])
+  State   State   @relation(fields: [stateID], references: [ID])
+
+  @@index([ID, name, code, stateID, createdAt, updatedAt])
+}

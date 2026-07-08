@@ -1,0 +1,21 @@
+allowBuilds:
+  '@firebase/util': true
+  '@nestjs/core': true
+  '@prisma/engines': true
+  '@swc/core': true
+  esbuild: true
+  prisma: true
+  protobufjs: true
+  unrs-resolver: true
+
+ignoredBuiltDependencies:
+  - prisma
+
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - '@nestjs/core'
+  - '@prisma/engines'
+  - '@swc/core'
+  - esbuild
+  - protobufjs
+  - unrs-resolver

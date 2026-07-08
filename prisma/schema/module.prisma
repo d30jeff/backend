@@ -1,0 +1,17 @@
+model Module {
+  ID        String   @id
+  name      String
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Roles       Role[]
+  Features    Feature[]
+  Permissions Permission[]
+  Users       User[]
+  Plans       Plan[]
+  Workspaces  Workspace[]
+  UserRoles   UserRole[]
+
+  @@index([ID, name, code, createdAt, updatedAt])
+}

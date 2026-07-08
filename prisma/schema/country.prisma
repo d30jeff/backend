@@ -1,0 +1,15 @@
+model Country {
+  ID        String    @id
+  name      String
+  code      String    @unique
+  isActive  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  States     State[]
+  Cities     City[]
+  Currencies Currency[]
+
+  @@index([ID, code, isActive, createdAt, updatedAt, deletedAt])
+}

@@ -1,0 +1,13 @@
+// Mapping for roles in a specific Industry
+model IndustryRole {
+  ID        String   @id
+  createdAt DateTime @default(now())
+
+  industryID String
+  Industry   Industry @relation(fields: [industryID], references: [ID])
+  roleID     String
+  Role       Role     @relation(fields: [roleID], references: [ID])
+
+  @@unique([roleID, industryID])
+  @@index([ID, roleID, industryID])
+}

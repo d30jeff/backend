@@ -1,0 +1,22 @@
+model Workspace {
+  ID              String   @id
+  name            String
+  moduleID        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  isActive        Boolean  @default(false)
+  createdByUserID String?
+  updatedByUserID String?
+  parentID        String?
+
+  Module    Module            @relation(fields: [moduleID], references: [ID], onDelete: Cascade)
+  Parent    Workspace?        @relation("Children", fields: [parentID], references: [ID], onDelete: SetNull)
+  Children  Workspace[]       @relation("Children")
+  CreatedBy User?             @relation("WorkspacesCreated", fields: [createdByUserID], references: [ID], onDelete: SetNull)
+  UpdatedBy User?             @relation("WorkspacesUpdated", fields: [updatedByUserID], references: [ID], onDelete: SetNull)
+  Members   WorkspaceMember[]
+  Accounts  Account[]
+  Budgets   Budget[]
+
+  @@index([name, moduleID, createdAt, updatedAt, isActive])
+}

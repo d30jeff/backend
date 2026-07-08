@@ -1,0 +1,12 @@
+model UserPlan {
+  ID        String    @id
+  userID    String    @unique
+  User      User      @relation(fields: [userID], references: [ID], onDelete: Cascade)
+  planID    String
+  Plan      Plan      @relation(fields: [planID], references: [ID])
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([ID, userID, planID, createdAt, updatedAt])
+}

@@ -1,0 +1,17 @@
+model Budget {
+  ID              String    @id
+  name            String
+  amount          Decimal   @default(0.0)
+  startsAt        DateTime
+  endsAt          DateTime
+  workspaceID     String
+  Workspace       Workspace @relation(fields: [workspaceID], references: [ID])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+  createdByUserID String
+
+  CreatedBy User @relation(name: "BudgetsCreated", fields: [createdByUserID], references: [ID], onDelete: Cascade)
+
+  @@index([ID, createdAt, updatedAt, deletedAt, createdByUserID])
+}

@@ -1,0 +1,31 @@
+model Feature {
+  ID          String   @id
+  name        String
+  code        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  moduleID    String
+
+  Module      Module        @relation(fields: [moduleID], references: [ID], onDelete: Cascade)
+  Plans       PlanFeature[]
+  Permissions Permission[]
+
+  @@unique([code, moduleID])
+  @@index([ID, moduleID, createdAt, updatedAt])
+}
+
+model FeatureActionPlanLimit {
+  ID              String   @id
+  featureActionID String
+  planID          String
+  unit            String   @default("RECORDS")
+  limit           Int?     @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  Plan Plan @relation(fields: [planID], references: [ID], onDelete: Cascade)
+
+  @@unique([featureActionID, planID])
+  @@index([ID, featureActionID, planID])
+}

@@ -1,0 +1,13 @@
+model Address {
+  ID             String   @id
+  lineAddressOne String
+  lineAddressTwo String?
+  postcode       String
+  countryID      String?
+  stateID        String?
+  cityID         String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([postcode, countryID, stateID, cityID, createdAt, updatedAt])
+}

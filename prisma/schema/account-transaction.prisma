@@ -1,0 +1,37 @@
+model Transaction {
+  ID                    String                  @id
+  amount                Decimal                 @default(0)
+  description           String?
+  date                  DateTime                @default(now())
+  accountID             String
+  Account               Account                 @relation(fields: [accountID], references: [ID], onDelete: Cascade)
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  transactionCategoryID String?
+  Category              TransactionCategory?    @relation(fields: [transactionCategoryID], references: [ID], onDelete: SetNull)
+  Attachments           TransactionAttachment[]
+
+  @@index([ID, amount, accountID, createdAt, updatedAt])
+}
+
+model TransactionCategory {
+  ID           String        @id
+  name         String
+  description  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  Transactions Transaction[]
+
+  @@index([ID, name, createdAt, updatedAt])
+}
+
+model TransactionAttachment {
+  ID            String      @id
+  transactionID String
+  Transaction   Transaction @relation(fields: [transactionID], references: [ID])
+  uploadID      String
+  Upload        Upload      @relation(fields: [uploadID], references: [ID])
+  createdAt     DateTime    @default(now())
+
+  @@index([ID, transactionID, uploadID])
+}
